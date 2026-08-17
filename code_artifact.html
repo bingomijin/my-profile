@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>김미진 | 프로필 웹사이트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: { 
+                extend: { 
+                    colors: { 
+                        brand: { 50: '#fbf8f5', 100: '#f6f0e8', 500: '#b88959', 600: '#9d6d3f', 700: '#7e532f' }, 
+                        sage: { 500: '#688c6f', 600: '#527258' } 
+                    } 
+                } 
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #faf9f6; }
+        .glass-card { background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); }
+    </style>
+</head>
+<body class="antialiased text-gray-800 bg-[#FAF9F6]">
+
+    <header class="sticky top-0 z-50 glass-card border-b border-brand-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
+            <a href="#" class="flex items-center space-x-2 font-bold text-gray-900">
+                <span class="w-9 h-9 rounded-full bg-brand-500 text-white flex items-center justify-center font-semibold text-sm shadow">MJ</span>
+                <span class="flex flex-col">
+                    <span class="text-base leading-tight" id="header-name">김미진</span>
+                    <span class="text-xs text-brand-600 font-normal" id="header-sub">Mijin Kim</span>
+                </span>
+            </a>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-700">
+                <a href="#about" class="hover:text-brand-600 transition">소개</a>
+                <a href="#career" class="hover:text-brand-600 transition">걸어온 길</a>
+                <a href="#passion" class="hover:text-brand-600 transition">여행 & 사진</a>
+                <a href="#ai-future" class="hover:text-brand-600 transition">AI와 미래</a>
+                <a href="#guestbook" class="hover:text-brand-600 transition">방명록</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="about" class="py-16">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center gap-10">
+            <div class="relative w-56 h-72 sm:w-64 sm:h-80 rounded-2xl overflow-hidden shadow-xl bg-white border-4 border-white flex-shrink-0">
+                <img id="profile-img" 
+                     src="https://bingomijin.github.io/my-profile/profile.jpg" 
+                     alt="김미진 프로필" 
+                     class="w-full h-full object-cover transition-opacity duration-300"
+                     onerror="this.onerror=null; this.src='https://bingomijin.github.io/my-profile/profile.jpg';">
+            </div>
+            <div class="flex-1 space-y-4 text-center md:text-left">
+                <span id="profile-badge" class="inline-block px-3 py-1 bg-brand-100 text-brand-700 text-xs font-semibold rounded-full mb-1">
+                    새로운 성장의 장을 열어가며
+                </span>
+                <h1 id="profile-title" class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
+                    안녕하세요, 김미진입니다.
+                </h1>
+                <p id="profile-intro" class="text-gray-600 text-base sm:text-lg leading-relaxed">
+                    오랫동안 공직에서 책임감과 정성을 다해 일해왔습니다. 이제는 여행과 사진으로 세상을 기록하고, AI를 통해 새로운 도전을 이어가고 있습니다.
+                </p>
+                <div id="profile-tags" class="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
+                    <span class="px-3 py-1 bg-white border border-gray-200 text-xs text-gray-600 rounded-full shadow-sm">🏛️ 공직 경력</span>
+                    <span class="px-3 py-1 bg-white border border-gray-200 text-xs text-gray-600 rounded-full shadow-sm">📷 여행 & 사진</span>
+                    <span class="px-3 py-1 bg-white border border-gray-200 text-xs text-gray-600 rounded-full shadow-sm">🤖 AI 활용 도전</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="career" class="py-16 bg-white border-t border-brand-100">
+        <div class="max-w-5xl mx-auto px-4">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 flex items-center gap-2">
+                <i class="fa-solid fa-briefcase text-brand-500 text-xl"></i> 걸어온 길
+            </h2>
+            <div class="space-y-6 border-l-2 border-brand-100 pl-6 ml-2">
+                <div class="relative">
+                    <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-brand-500 border-4 border-white"></span>
+                    <h3 class="text-lg font-bold text-gray-900">공직에서의 신뢰와 헌신</h3>
+                    <p class="text-sm text-brand-600 font-medium mb-1">오랜 공직 생활</p>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        공직자로서의 깊은 사명감을 가지고 정직과 원칙을 바탕으로 임해왔습니다. 다방면의 행정 업무와 대민 서비스를 수행하며 원활한 소통 능력을 길렀습니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="passion" class="py-16 bg-[#FAF9F6] border-t border-brand-100">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center gap-2">
+                        <i class="fa-solid fa-camera text-brand-500 text-xl"></i> 여행 & 사진
+                    </h2>
+                    <p class="text-gray-500 text-sm mt-1">구글 스프레드시트에 기록된 시선과 추억들입니다.</p>
+                </div>
+                <button onclick="loadTravelData()" class="self-start sm:self-auto px-3 py-1.5 bg-white border border-brand-100 rounded-lg text-xs font-medium text-brand-700 hover:bg-brand-50 shadow-sm transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-rotate-right"></i> 사진 새로고침
+                </button>
+            </div>
+            
+            <div id="travel-gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamic cards populated via JS -->
+            </div>
+        </div>
+    </section>
+
+    <section id="ai-future" class="py-16 bg-white border-t border-brand-100">
+        <div class="max-w-5xl mx-auto px-4">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles text-brand-500 text-xl"></i> AI와 새로운 도약
+            </h2>
+            <div class="bg-gradient-to-br from-brand-50 to-amber-50/40 rounded-2xl p-6 sm:p-8 border border-brand-100">
+                <p class="text-gray-700 leading-relaxed text-base">
+                    AI 기술과 코딩을 학습하며 새로운 창작의 가능성을 넓혀가고 있습니다. 세상을 바라보는 따뜻한 시선과 인공지능 기술을 결합하여 가치 있는 활동을 이어나가고자 합니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="guestbook" class="py-16 bg-[#FAF9F6] border-t border-brand-100">
+        <div class="max-w-5xl mx-auto px-4">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <i class="fa-solid fa-comments text-brand-500 text-xl"></i> 방명록
+            </h2>
+            <div class="bg-white rounded-2xl p-6 border border-brand-100 shadow-sm mb-6">
+                <form id="guestbook-form" onsubmit="addGuestbookMessage(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <input type="text" id="gb-name" placeholder="작성자 이름" required class="w-full px-4 py-2 text-sm border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <input type="text" id="gb-relation" placeholder="관계 (예: 친구, 방문객)" class="w-full px-4 py-2 text-sm border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <textarea id="gb-content" rows="3" placeholder="남기실 축하와 응원의 한마디를 적어주세요." required class="w-full px-4 py-2 text-sm border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                    <button type="submit" class="px-5 py-2.5 bg-brand-500 text-white rounded-xl text-sm font-medium hover:bg-brand-600 transition shadow">
+                        방명록 남기기
+                    </button>
+                </form>
+            </div>
+            <div id="guestbook-list" class="space-y-4"></div>
+        </div>
+    </section>
+
+    <footer class="py-8 bg-white border-t border-brand-100 text-center text-xs text-gray-500">
+        <p>© 2026 김미진. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1rCxB5FGlN2INH8ynLbv3fOlZdG6B0LZVHmZ_7XsDOx4/edit";
+
+        const DEFAULT_PROFILE = {
+            name: "김미진",
+            engName: "Mijin Kim",
+            badge: "새로운 성장의 장을 열어가며",
+            title: "안녕하세요, 김미진입니다.",
+            intro: "오랫동안 공직에서 책임감과 정성을 다해 일해왔습니다. 이제는 여행과 사진으로 세상을 기록하고, AI를 통해 새로운 도전을 이어가고 있습니다.",
+            img: "https://bingomijin.github.io/my-profile/profile.jpg"
+        };
+
+        const DEFAULT_TRAVELS = [
+            {
+                date: "2026.05.10",
+                place: "프랑스 파리",
+                title: "에펠탑 아래에서의 여유",
+                desc: "파리 거리에서 마주친 따스한 햇살과 낭만적인 카페 풍경을 렌즈에 담았습니다.",
+                img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&auto=format&fit=crop&q=80"
+            },
+            {
+                date: "2026.06.15",
+                place: "제주도",
+                title: "푸른 바다 해안도로",
+                desc: "시원한 바람을 맞으며 찰랑이는 파도 소리를 가만히 들어봅니다.",
+                img: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&auto=format&fit=crop&q=80"
+            }
+        ];
+
+        function formatSheetCsvUrl(url, sheetName = '') {
+            if (!url) return '';
+            let csvUrl = url.trim();
+
+            const match = csvUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            if (match && match[1] && !csvUrl.includes('/d/e/')) {
+                const sheetId = match[1];
+                if (sheetName) {
+                    return `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+                }
+                return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
+            }
+
+            if (csvUrl.includes('/pubhtml')) {
+                csvUrl = csvUrl.replace('/pubhtml', '/pub');
+            }
+            if (!csvUrl.includes('output=csv')) {
+                csvUrl += (csvUrl.includes('?') ? '&' : '?') + (sheetName ? `sheet=${encodeURIComponent(sheetName)}&` : '') + 'output=csv';
+            }
+            return csvUrl;
+        }
+
+        function formatImageUrl(url) {
+            if (!url || typeof url !== 'string') return '';
+            url = url.trim();
+            if (url.includes('drive.google.com')) {
+                const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    return `https://lh3.googleusercontent.com/d/${match[1]}`;
+                }
+            }
+            return url;
+        }
+
+        function parseCSV(text) {
+            const lines = [];
+            let row = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const nextChar = text[i + 1];
+                
+                if (char === '"') {
+                    if (inQuotes && nextChar === '"') {
+                        current += '"';
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (char === ',' && !inQuotes) {
+                    row.push(current.trim());
+                    current = '';
+                } else if ((char === '\r' || char === '\n') && !inQuotes) {
+                    if (char === '\r' && nextChar === '\n') i++;
+                    row.push(current.trim());
+                    if (row.some(cell => cell.length > 0)) lines.push(row);
+                    row = [];
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            if (current || row.length > 0) {
+                row.push(current.trim());
+                if (row.some(cell => cell.length > 0)) lines.push(row);
+            }
+            return lines;
+        }
+
+        async function fetchSheetData(url, sheetName = '') {
+            const csvUrl = formatSheetCsvUrl(url, sheetName);
+            
+            // 1차: 직접 Fetch 시도
+            try {
+                const response = await fetch(csvUrl);
+                if (response.ok) {
+                    const text = await response.text();
+                    if (text && text.length > 5) return parseCSV(text);
+                }
+            } catch (err) {
+                console.warn("직접 가져오기 실패, CORS 프록시 시도 중...", err);
+            }
+
+            // 2차: CORS Proxy 우회
+            try {
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`;
+                const response = await fetch(proxyUrl);
+                if (response.ok) {
+                    const text = await response.text();
+                    if (text && text.length > 5) return parseCSV(text);
+                }
+            } catch (err) {
+                console.warn("CORS 프록시 가져오기 실패...", err);
+            }
+
+            return [];
+        }
+
+        async function loadProfileData() {
+            const data = await fetchSheetData(SPREADSHEET_URL, '프로필');
+            
+            let name = DEFAULT_PROFILE.name;
+            let engName = DEFAULT_PROFILE.engName;
+            let badge = DEFAULT_PROFILE.badge;
+            let title = DEFAULT_PROFILE.title;
+            let intro = DEFAULT_PROFILE.intro;
+            let photo = DEFAULT_PROFILE.img;
+
+            if (data && data.length > 0) {
+                // Key-Value 수직 구조 검사 (Column A: 항목명, Column B: 내용)
+                data.forEach(row => {
+                    if (row.length < 2) return;
+                    const key = row[0]?.trim().toLowerCase();
+                    const val = row[1]?.trim();
+                    if (!val) return;
+
+                    if (['이름', '성명', 'name'].includes(key)) name = val;
+                    if (['영문이름', '영문', 'engname', 'subtitle', '소제목'].includes(key)) engName = val;
+                    if (['배지', 'badge', '태그'].includes(key)) badge = val;
+                    if (['소개제목', '제목', 'title', '인사말'].includes(key)) title = val;
+                    if (['소개본문', '소개', 'intro', '본문', '자기소개'].includes(key)) intro = val;
+                    if (['프로필사진', '사진', '이미지', 'photo', 'image'].includes(key)) photo = formatImageUrl(val);
+                });
+
+                // Horizontal 테이블 구조 검사 (1행: Header, 2행: Data)
+                if (data.length >= 2) {
+                    const headers = data[0].map(h => h.trim().toLowerCase());
+                    const row = data[1];
+
+                    headers.forEach((h, idx) => {
+                        const val = row[idx]?.trim();
+                        if (!val) return;
+                        if (['이름', '성명', 'name'].includes(h)) name = val;
+                        if (['영문이름', '영문', 'engname', 'subtitle', '소제목'].includes(h)) engName = val;
+                        if (['배지', 'badge', '태그'].includes(h)) badge = val;
+                        if (['소개제목', '제목', 'title', '인사말'].includes(h)) title = val;
+                        if (['소개본문', '소개', 'intro', '본문', '자기소개'].includes(h)) intro = val;
+                        if (['프로필사진', '사진', '이미지', 'photo', 'image'].includes(h)) photo = formatImageUrl(val);
+                    });
+                }
+            }
+
+            document.getElementById('header-name').textContent = name;
+            if (document.getElementById('header-sub')) document.getElementById('header-sub').textContent = engName;
+            document.getElementById('profile-title').textContent = title || `안녕하세요, ${name}입니다.`;
+            document.getElementById('profile-intro').textContent = intro;
+            document.getElementById('profile-badge').textContent = badge;
+            
+            const profileImgEl = document.getElementById('profile-img');
+            if (photo) {
+                profileImgEl.src = photo;
+            }
+        }
+
+        async function loadTravelData() {
+            const data = await fetchSheetData(SPREADSHEET_URL, '여행');
+            const container = document.getElementById('travel-gallery');
+            container.innerHTML = '';
+
+            let items = [];
+            
+            if (data && data.length > 1) {
+                data.slice(1).forEach(row => {
+                    if (row.length < 3) return;
+                    items.push({
+                        date: row[0] || '',
+                        place: row[1] || '',
+                        title: row[2] || '',
+                        desc: row[3] || '',
+                        img: formatImageUrl(row[4]) || 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&auto=format&fit=crop&q=80'
+                    });
+                });
+            }
+
+            if (items.length === 0) {
+                items = DEFAULT_TRAVELS;
+            }
+
+            items.forEach(item => {
+                container.innerHTML += `
+                    <div class="bg-white rounded-2xl overflow-hidden border border-brand-100 shadow-sm hover:shadow-md transition duration-300 flex flex-col">
+                        <div class="relative h-48 bg-gray-100 overflow-hidden">
+                            <img src="${item.img}" 
+                                 alt="${item.title}" 
+                                 class="w-full h-full object-cover hover:scale-105 transition duration-500"
+                                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&auto=format&fit=crop&q=80';">
+                            <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full text-xs font-semibold text-brand-700 shadow-sm flex items-center gap-1">
+                                <i class="fa-regular fa-calendar text-brand-500"></i> ${item.date}
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="text-xs font-semibold text-brand-600 mb-1 flex items-center gap-1">
+                                    <i class="fa-solid fa-location-dot"></i> ${item.place}
+                                </div>
+                                <h3 class="font-bold text-gray-900 text-lg leading-snug mb-2">${item.title}</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">${item.desc}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function getGuestbookMessages() {
+            try {
+                return JSON.parse(localStorage.getItem('mj_guestbook') || '[]');
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function renderGuestbook() {
+            const list = document.getElementById('guestbook-list');
+            const messages = getGuestbookMessages();
+            if (messages.length === 0) {
+                list.innerHTML = `<p class="text-xs text-gray-400 text-center py-4">첫 번째 방명록 메시지를 남겨보세요!</p>`;
+                return;
+            }
+            list.innerHTML = messages.map(m => `
+                <div class="bg-white p-4 rounded-xl border border-brand-100 shadow-sm">
+                    <div class="flex items-center justify-between text-xs text-gray-500 mb-1">
+                        <span class="font-bold text-gray-800">${m.name} <span class="font-normal text-brand-600">(${m.relation || '방문객'})</span></span>
+                        <span>${m.date}</span>
+                    </div>
+                    <p class="text-sm text-gray-700 mt-1">${m.content}</p>
+                </div>
+            `).join('');
+        }
+
+        function addGuestbookMessage(e) {
+            e.preventDefault();
+            const name = document.getElementById('gb-name').value.trim();
+            const relation = document.getElementById('gb-relation').value.trim();
+            const content = document.getElementById('gb-content').value.trim();
+            
+            if (!name || !content) return;
+
+            const messages = getGuestbookMessages();
+            messages.unshift({
+                name,
+                relation,
+                content,
+                date: new Date().toLocaleDateString('ko-KR')
+            });
+
+            localStorage.setItem('mj_guestbook', JSON.stringify(messages));
+            document.getElementById('guestbook-form').reset();
+            renderGuestbook();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProfileData();
+            loadTravelData();
+            renderGuestbook();
+        });
+    </script>
+</body>
+</html>
