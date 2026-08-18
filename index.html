@@ -1,514 +1,269 @@
 <!DOCTYPE html>
-<html lang="ko" class="scroll-smooth">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>김미진 | 프로필 웹사이트</title>
+    <title>프로필 & 여행 기록</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script>
-        tailwind.config = {
-            theme: { 
-                extend: { 
-                    colors: { 
-                        brand: { 50: '#fbf8f5', 100: '#f6f0e8', 500: '#b88959', 600: '#9d6d3f', 700: '#7e532f' }, 
-                        sage: { 500: '#688c6f', 600: '#527258' } 
-                    } 
-                } 
-            }
-        }
-    </script>
+    <!-- PapaParse CDN for parsing CSV from Google Sheets -->
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: #faf9f6; }
-        .glass-card { background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); }
+        body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="antialiased text-gray-800 bg-[#FAF9F6]">
+<body class="bg-amber-50/50 min-h-screen flex items-center justify-center p-4 md:p-8 text-stone-800">
 
-    <header class="sticky top-0 z-50 glass-card border-b border-brand-100 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
-            <a href="#" class="flex items-center space-x-2 font-bold text-gray-900">
-                <span class="w-9 h-9 rounded-full bg-brand-500 text-white flex items-center justify-center font-semibold text-sm shadow">MJ</span>
-                <span class="flex flex-col">
-                    <span class="text-base leading-tight" id="header-name">김미진</span>
-                    <span class="text-xs text-brand-600 font-normal" id="header-sub">Mijin Kim</span>
-                </span>
-            </a>
-            <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-700">
-                <a href="#about" class="hover:text-brand-600 transition">소개</a>
-                <a href="#career" class="hover:text-brand-600 transition">걸어온 길</a>
-                <a href="#passion" class="hover:text-brand-600 transition">여행 & 사진</a>
-                <a href="#ai-future" class="hover:text-brand-600 transition">AI와 미래</a>
-                <a href="#guestbook" class="hover:text-brand-600 transition">방명록</a>
-            </nav>
-        </div>
-    </header>
+    <!-- 반응형 그리드 레이아웃: 데스크톱 가로 배치, 모바일 세로 배치 -->
+    <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
 
-    <section id="about" class="py-16">
-        <div class="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center gap-10">
-            <div class="relative w-56 h-72 sm:w-64 sm:h-80 rounded-2xl overflow-hidden shadow-xl bg-gray-100 border-4 border-white flex-shrink-0 flex items-center justify-center text-gray-400">
-                <img id="profile-img" 
-                     src="" 
-                     alt="김미진 프로필" 
-                     class="w-full h-full object-cover transition-opacity duration-300 hidden"
-                     onerror="this.style.display='none'; if(document.getElementById('profile-img-placeholder')) document.getElementById('profile-img-placeholder').style.display='flex';">
-                <div id="profile-img-placeholder" class="flex flex-col items-center justify-center p-4 text-center">
-                    <i class="fa-solid fa-user text-4xl text-gray-300 mb-2"></i>
-                    <span class="text-xs text-gray-400">사진을 불러오는 중입니다...</span>
+        <!-- 1. 프로필 카드 (좌측 영역) -->
+        <main class="md:col-span-5 lg:col-span-4 bg-white rounded-3xl shadow-xl shadow-amber-900/5 border border-amber-100 p-6 text-center transition-all md:sticky md:top-8">
+            
+            <!-- 프로필 사진 -->
+            <div class="mb-5 flex justify-center">
+                <div class="relative w-36 h-36 md:w-40 md:h-40 rounded-full overflow-hidden ring-4 ring-amber-200/60 shadow-md bg-stone-100">
+                    <img 
+                        id="profile-image"
+                        src="profile_2.png" 
+                        alt="프로필 사진" 
+                        class="w-full h-full object-cover"
+                        onerror="this.onerror=null; this.src='profile.png';"
+                    />
                 </div>
             </div>
-            <div class="flex-1 space-y-4 text-center md:text-left">
-                <span id="profile-badge" class="inline-block px-3 py-1 bg-brand-100 text-brand-700 text-xs font-semibold rounded-full mb-1">
-                    새로운 성장의 장을 열어가며
-                </span>
-                <h1 id="profile-title" class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
-                    안녕하세요, 김미진입니다.
-                </h1>
-                <p id="profile-intro" class="text-gray-600 text-base sm:text-lg leading-relaxed">
-                    오랫동안 공직에서 책임감과 정성을 다해 일해왔습니다. 이제는 여행과 사진으로 세상을 기록하고, AI를 통해 새로운 도전을 이어가고 있습니다.
+
+            <!-- 이름 -->
+            <h1 id="profile-name" class="text-2xl font-bold text-stone-900 mb-1">
+                김미진
+            </h1>
+
+            <!-- 한 줄 소개 -->
+            <p id="profile-tagline" class="text-amber-800 font-medium text-sm mb-5 bg-amber-50 inline-block px-3 py-1 rounded-full border border-amber-200/50">
+                디지털라이프코치
+            </p>
+
+            <!-- 자기소개 -->
+            <div id="profile-bio" class="text-stone-600 text-sm leading-relaxed border-t border-stone-100 pt-5 text-center">
+                <p>
+                    안녕하세요. 반갑습니다.
                 </p>
-                <div id="profile-tags" class="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
-                    <span class="px-3 py-1 bg-white border border-gray-200 text-xs text-gray-600 rounded-full shadow-sm">🏛️ 공직 경력</span>
-                    <span class="px-3 py-1 bg-white border border-gray-200 text-xs text-gray-600 rounded-full shadow-sm">📷 여행 & 사진</span>
-                    <span class="px-3 py-1 bg-white border border-gray-200 text-xs text-gray-600 rounded-full shadow-sm">🤖 AI 활용 도전</span>
-                </div>
             </div>
-        </div>
-    </section>
 
-    <section id="career" class="py-16 bg-white border-t border-brand-100">
-        <div class="max-w-5xl mx-auto px-4">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 flex items-center gap-2">
-                <i class="fa-solid fa-briefcase text-brand-500 text-xl"></i> 걸어온 길
-            </h2>
-            <div class="space-y-6 border-l-2 border-brand-100 pl-6 ml-2">
-                <div class="relative">
-                    <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-brand-500 border-4 border-white"></span>
-                    <h3 class="text-lg font-bold text-gray-900">공직에서의 신뢰와 헌신</h3>
-                    <p class="text-sm text-brand-600 font-medium mb-1">오랜 공직 생활</p>
-                    <p class="text-gray-600 text-sm leading-relaxed">
-                        공직자로서의 깊은 사명감을 가지고 정직과 원칙을 바탕으로 임해왔습니다. 다방면의 행정 업무와 대민 서비스를 수행하며 원활한 소통 능력을 길렀습니다.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </main>
 
-    <section id="passion" class="py-16 bg-[#FAF9F6] border-t border-brand-100">
-        <div class="max-w-5xl mx-auto px-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center gap-2">
-                        <i class="fa-solid fa-camera text-brand-500 text-xl"></i> 여행 & 사진
-                    </h2>
-                    <p class="text-gray-500 text-sm mt-1">구글 스프레드시트에 기록된 시선과 추억들입니다.</p>
-                </div>
-                <button onclick="loadTravelData()" class="self-start sm:self-auto px-3 py-1.5 bg-white border border-brand-100 rounded-lg text-xs font-medium text-brand-700 hover:bg-brand-50 shadow-sm transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-rotate-right"></i> 사진 새로고침
+        <!-- 2. 나의 여행 기록 영역 (우측 영역) -->
+        <section class="md:col-span-7 lg:col-span-8 bg-white rounded-3xl shadow-xl shadow-amber-900/5 border border-amber-100 p-6 transition-all">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-stone-100 flex-wrap gap-2">
+                <h2 class="text-lg font-bold text-stone-900 flex items-center gap-2">
+                    <span>나의 여행 기록</span>
+                    <span class="text-xs font-normal text-amber-800 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/50">Travel Notes</span>
+                </h2>
+                
+                <!-- 구글 시트 연동 토글 버튼 -->
+                <button id="toggle-sheet-btn" onclick="toggleSheetPanel()" class="text-xs text-amber-800 hover:text-amber-900 bg-amber-100/60 hover:bg-amber-100 px-3 py-1.5 rounded-lg border border-amber-200 transition-colors flex items-center gap-1 font-medium">
+                    <span>📊 구글 시트 연동</span>
                 </button>
             </div>
-            
-            <div id="travel-gallery" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Dynamic cards populated via JS -->
-            </div>
 
-            <div id="travel-pagination" class="flex items-center justify-center gap-2 mt-8">
-                <!-- Page navigation buttons -->
-            </div>
-        </div>
-    </section>
-
-    <section id="ai-future" class="py-16 bg-white border-t border-brand-100">
-        <div class="max-w-5xl mx-auto px-4">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <i class="fa-solid fa-wand-magic-sparkles text-brand-500 text-xl"></i> AI와 새로운 도약
-            </h2>
-            <div class="bg-gradient-to-br from-brand-50 to-amber-50/40 rounded-2xl p-6 sm:p-8 border border-brand-100">
-                <p class="text-gray-700 leading-relaxed text-base">
-                    AI 기술과 코딩을 학습하며 새로운 창작의 가능성을 넓혀가고 있습니다. 세상을 바라보는 따뜻한 시선과 인공지능 기술을 결합하여 가치 있는 활동을 이어나가고자 합니다.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section id="guestbook" class="py-16 bg-[#FAF9F6] border-t border-brand-100">
-        <div class="max-w-5xl mx-auto px-4">
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <i class="fa-solid fa-comments text-brand-500 text-xl"></i> 방명록
-            </h2>
-            <div class="bg-white rounded-2xl p-6 border border-brand-100 shadow-sm mb-6">
-                <form id="guestbook-form" onsubmit="addGuestbookMessage(event)" class="space-y-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <input type="text" id="gb-name" placeholder="작성자 이름" required class="w-full px-4 py-2 text-sm border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
-                        <input type="text" id="gb-relation" placeholder="관계 (예: 친구, 방문객)" class="w-full px-4 py-2 text-sm border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
-                    </div>
-                    <textarea id="gb-content" rows="3" placeholder="남기실 축하와 응원의 한마디를 적어주세요." required class="w-full px-4 py-2 text-sm border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
-                    <button type="submit" class="px-5 py-2.5 bg-brand-500 text-white rounded-xl text-sm font-medium hover:bg-brand-600 transition shadow">
-                        방명록 남기기
+            <!-- 구글 시트 URL 입력 패널 (기본 숨김) -->
+            <div id="sheet-panel" class="hidden mb-5 p-4 bg-amber-50/70 rounded-2xl border border-amber-200/80 text-xs text-stone-700">
+                <div class="flex justify-between items-center mb-2">
+                    <label for="sheet-url" class="font-semibold text-stone-900">구글 스프레드시트 URL 입력</label>
+                    <span class="text-[11px] text-stone-500">* '프로필', '여행' 시트 탭 공개 설정 필요</span>
+                </div>
+                <div class="flex gap-2">
+                    <input 
+                        type="url" 
+                        id="sheet-url" 
+                        placeholder="https://docs.google.com/spreadsheets/d/시트ID/edit..." 
+                        class="flex-1 px-3 py-2 rounded-xl border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-400 bg-white text-xs"
+                    />
+                    <button onclick="syncGoogleSheet()" class="bg-amber-600 hover:bg-amber-700 text-white font-medium px-4 py-2 rounded-xl transition-colors shrink-0">
+                        연동하기
                     </button>
-                </form>
+                </div>
+                <div id="sync-status" class="mt-2 text-[11px] font-medium hidden"></div>
             </div>
-            <div id="guestbook-list" class="space-y-4"></div>
-        </div>
-    </section>
 
-    <footer class="py-8 bg-white border-t border-brand-100 text-center text-xs text-gray-500">
-        <p>© 2026 김미진. All rights reserved.</p>
-    </footer>
+            <!-- 여행 기록 카드 그리드 -->
+            <div id="travel-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <!-- 샘플 로딩 혹은 데이터가 여기에 동적으로 들어갑니다 -->
+            </div>
+        </section>
+
+    </div>
 
     <script>
-        const SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/1rCxB5FGlN2INH8ynLbv3fOlZdG6B0LZVHmZ_7XsDOx4/edit";
+        // 기본 샘플 데이터 (시트 연동 전 기본 표시용)
+        const defaultTravelData = [
+            { date: '2024.05', place: '제주도', story: '푸른 바다와 함께한 제주 산책', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=300&q=80' },
+            { date: '2023.11', place: '일본 교토', story: '고즈넉한 골목길 둘러보기', image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=300&q=80' },
+            { date: '2023.08', place: '강원도 평창', story: '푸른 초원에서의 힐링', image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=300&q=80' },
+            { date: '2022.10', place: '경남 남해', story: '노을이 아름다웠던 바닷가', image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=300&q=80' }
+        ];
 
-        const DEFAULT_PROFILE = {
-            name: "김미진",
-            engName: "Mijin Kim",
-            badge: "새로운 성장의 장을 열어가며",
-            title: "안녕하세요, 김미진입니다.",
-            intro: "오랫동안 공직에서 책임감과 정성을 다해 일해왔습니다. 이제는 여행과 사진으로 세상을 기록하고, AI를 통해 새로운 도전을 이어가고 있습니다.",
-            img: ""
-        };
-
-        let allTravelItems = [];
-        let currentTravelPage = 1;
-        const ITEMS_PER_PAGE = 2;
-
-        function formatSheetCsvUrl(url, sheetName = '') {
-            if (!url) return '';
-            let csvUrl = url.trim();
-
-            const match = csvUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-            if (match && match[1] && !csvUrl.includes('/d/e/')) {
-                const sheetId = match[1];
-                if (sheetName) {
-                    return `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-                }
-                return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
-            }
-
-            if (csvUrl.includes('/pubhtml')) {
-                csvUrl = csvUrl.replace('/pubhtml', '/pub');
-            }
-            if (!csvUrl.includes('output=csv')) {
-                csvUrl += (csvUrl.includes('?') ? '&' : '?') + (sheetName ? `sheet=${encodeURIComponent(sheetName)}&` : '') + 'output=csv';
-            }
-            return csvUrl;
+        // 연동 패널 토글
+        function toggleSheetPanel() {
+            const panel = document.getElementById('sheet-panel');
+            panel.classList.toggle('hidden');
         }
 
-        function formatImageUrl(url) {
-            if (!url || typeof url !== 'string') return '';
-            url = url.trim();
-            if (url.includes('drive.google.com')) {
-                const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
-                if (match && match[1]) {
-                    return `https://lh3.googleusercontent.com/d/${match[1]}`;
-                }
+        // 프로필 정보 동적 렌더링 함수
+        function renderProfileData(dataList) {
+            if (!dataList || dataList.length === 0) return;
+            const profile = dataList[0];
+
+            if (profile.name) {
+                document.getElementById('profile-name').textContent = profile.name;
             }
-            return url;
-        }
-
-        function parseCSV(text) {
-            const lines = [];
-            let row = [];
-            let current = '';
-            let inQuotes = false;
-            
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i];
-                const nextChar = text[i + 1];
-                
-                if (char === '"') {
-                    if (inQuotes && nextChar === '"') {
-                        current += '"';
-                        i++;
-                    } else {
-                        inQuotes = !inQuotes;
-                    }
-                } else if (char === ',' && !inQuotes) {
-                    row.push(current.trim());
-                    current = '';
-                } else if ((char === '\r' || char === '\n') && !inQuotes) {
-                    if (char === '\r' && nextChar === '\n') i++;
-                    row.push(current.trim());
-                    if (row.some(cell => cell.length > 0)) lines.push(row);
-                    row = [];
-                    current = '';
-                } else {
-                    current += char;
-                }
+            if (profile.tagline) {
+                document.getElementById('profile-tagline').textContent = profile.tagline;
             }
-            if (current || row.length > 0) {
-                row.push(current.trim());
-                if (row.some(cell => cell.length > 0)) lines.push(row);
+            if (profile.bio) {
+                document.getElementById('profile-bio').innerHTML = `<p>${profile.bio.replace(/\n/g, '<br>')}</p>`;
             }
-            return lines;
-        }
-
-        async function fetchSheetData(url, sheetName = '') {
-            const csvUrl = formatSheetCsvUrl(url, sheetName);
-            
-            try {
-                const response = await fetch(csvUrl);
-                if (response.ok) {
-                    const text = await response.text();
-                    if (text && text.length > 5) return parseCSV(text);
-                }
-            } catch (err) {
-                console.warn("직접 가져오기 실패, CORS 프록시 시도 중...", err);
-            }
-
-            try {
-                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`;
-                const response = await fetch(proxyUrl);
-                if (response.ok) {
-                    const text = await response.text();
-                    if (text && text.length > 5) return parseCSV(text);
-                }
-            } catch (err) {
-                console.warn("CORS 프록시 가져오기 실패...", err);
-            }
-
-            return [];
-        }
-
-        async function loadProfileData() {
-            const data = await fetchSheetData(SPREADSHEET_URL, '프로필');
-            
-            let name = DEFAULT_PROFILE.name;
-            let engName = DEFAULT_PROFILE.engName;
-            let badge = DEFAULT_PROFILE.badge;
-            let title = DEFAULT_PROFILE.title;
-            let intro = DEFAULT_PROFILE.intro;
-            let photo = '';
-
-            if (data && data.length > 0) {
-                data.forEach(row => {
-                    if (row.length < 2) return;
-                    const key = row[0]?.trim().toLowerCase();
-                    const val = row[1]?.trim();
-                    if (!val) return;
-
-                    if (['이름', '성명', 'name'].includes(key)) name = val;
-                    if (['영문이름', '영문', 'engname', 'subtitle', '소제목'].includes(key)) engName = val;
-                    if (['배지', 'badge', '태그'].includes(key)) badge = val;
-                    if (['소개제목', '제목', 'title', '인사말'].includes(key)) title = val;
-                    if (['소개본문', '소개', 'intro', '본문', '자기소개'].includes(key)) intro = val;
-                    if (['프로필사진', '사진', '이미지', 'photo', 'image'].includes(key)) photo = formatImageUrl(val);
-                });
-
-                if (data.length >= 2) {
-                    const headers = data[0].map(h => h.trim().toLowerCase());
-                    const row = data[1];
-
-                    headers.forEach((h, idx) => {
-                        const val = row[idx]?.trim();
-                        if (!val) return;
-                        if (['이름', '성명', 'name'].includes(h)) name = val;
-                        if (['영문이름', '영문', 'engname', 'subtitle', '소제목'].includes(h)) engName = val;
-                        if (['배지', 'badge', '태그'].includes(h)) badge = val;
-                        if (['소개제목', '제목', 'title', '인사말'].includes(h)) title = val;
-                        if (['소개본문', '소개', 'intro', '본문', '자기소개'].includes(h)) intro = val;
-                        if (['프로필사진', '사진', '이미지', 'photo', 'image'].includes(h)) photo = formatImageUrl(val);
-                    });
-                }
-            }
-
-            document.getElementById('header-name').textContent = name;
-            if (document.getElementById('header-sub')) document.getElementById('header-sub').textContent = engName;
-            document.getElementById('profile-title').textContent = title || `안녕하세요, ${name}입니다.`;
-            document.getElementById('profile-intro').textContent = intro;
-            document.getElementById('profile-badge').textContent = badge;
-            
-            const profileImgEl = document.getElementById('profile-img');
-            const placeholderEl = document.getElementById('profile-img-placeholder');
-
-            if (photo) {
-                profileImgEl.src = photo;
-                profileImgEl.classList.remove('hidden');
-                if (placeholderEl) placeholderEl.style.display = 'none';
-            } else {
-                profileImgEl.classList.add('hidden');
-                if (placeholderEl) {
-                    placeholderEl.style.display = 'flex';
-                    placeholderEl.querySelector('span').textContent = '프로필 사진 준비 중';
-                }
+            if (profile.image) {
+                document.getElementById('profile-image').src = profile.image;
             }
         }
 
-        async function loadTravelData() {
-            const data = await fetchSheetData(SPREADSHEET_URL, '여행');
-            allTravelItems = [];
-            
-            if (data && data.length > 1) {
-                data.slice(1).forEach(row => {
-                    if (row.length < 2) return;
-                    allTravelItems.push({
-                        date: row[0] || '',
-                        place: row[1] || '',
-                        title: row[2] || '',
-                        desc: row[3] || '',
-                        img: formatImageUrl(row[4]) || ''
-                    });
-                });
-            }
+        // 여행 카드 동적 렌더링 함수
+        function renderTravelCards(dataList) {
+            const grid = document.getElementById('travel-grid');
+            grid.innerHTML = '';
 
-            currentTravelPage = 1;
-            renderTravelGallery();
-        }
-
-        function renderTravelGallery() {
-            const container = document.getElementById('travel-gallery');
-            const paginationContainer = document.getElementById('travel-pagination');
-            container.innerHTML = '';
-            paginationContainer.innerHTML = '';
-
-            if (allTravelItems.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-brand-100 text-gray-400">
-                        <i class="fa-solid fa-camera-retro text-3xl mb-2 text-brand-500/40"></i>
-                        <p class="text-sm">구글 시트에 등록된 여행 사진이 없습니다.</p>
+            if (!dataList || dataList.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-8 text-center text-xs text-stone-400">
+                        기록된 여행 정보가 없습니다.
                     </div>
                 `;
                 return;
             }
 
-            const totalPages = Math.ceil(allTravelItems.length / ITEMS_PER_PAGE);
-            if (currentTravelPage > totalPages) currentTravelPage = totalPages;
-            if (currentTravelPage < 1) currentTravelPage = 1;
+            dataList.forEach(item => {
+                const date = item.date || '날짜 미상';
+                const place = item.place || '장소 미상';
+                const story = item.story || '';
+                const image = item.image || 'https://placehold.co/300x200/f5f5f4/78716c?text=Travel';
 
-            const startIndex = (currentTravelPage - 1) * ITEMS_PER_PAGE;
-            const pageItems = allTravelItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-
-            pageItems.forEach(item => {
-                const imageContent = item.img ? `
-                    <img src="${item.img}" 
-                         alt="${item.title || '여행 사진'}" 
-                         class="w-full h-full object-cover hover:scale-105 transition duration-500"
-                         onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full flex flex-col items-center justify-center bg-gray-100 text-gray-400 text-xs\\'><i class=\\'fa-solid fa-image text-2xl mb-1\\'></i>이미지를 불러올 수 없습니다</div>';">
-                ` : `
-                    <div class="w-full h-full flex flex-col items-center justify-center bg-gray-100 text-gray-400 text-xs">
-                        <i class="fa-solid fa-image text-2xl mb-1"></i>사진 미등록
-                    </div>
-                `;
-
-                container.innerHTML += `
-                    <div class="bg-white rounded-2xl overflow-hidden border border-brand-100 shadow-sm hover:shadow-md transition duration-300 flex flex-col">
-                        <div class="relative h-52 bg-gray-100 overflow-hidden">
-                            ${imageContent}
-                            ${item.date ? `
-                            <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full text-xs font-semibold text-brand-700 shadow-sm flex items-center gap-1">
-                                <i class="fa-regular fa-calendar text-brand-500"></i> ${item.date}
-                            </div>` : ''}
-                        </div>
-                        <div class="p-5 flex-1 flex flex-col justify-between">
-                            <div>
-                                ${item.place ? `
-                                <div class="text-xs font-semibold text-brand-600 mb-1 flex items-center gap-1">
-                                    <i class="fa-solid fa-location-dot"></i> ${item.place}
-                                </div>` : ''}
-                                <h3 class="font-bold text-gray-900 text-lg leading-snug mb-2">${item.title || '여행 기록'}</h3>
-                                <p class="text-sm text-gray-600 leading-relaxed">${item.desc || ''}</p>
+                const cardHtml = `
+                    <div class="bg-stone-50/80 rounded-2xl p-3 border border-stone-100 flex flex-col justify-between">
+                        <img 
+                            src="${image}" 
+                            alt="${place}" 
+                            class="w-full h-28 rounded-xl object-cover bg-stone-200 mb-2.5"
+                            onerror="this.onerror=null; this.src='https://placehold.co/300x200/f5f5f4/78716c?text=${encodeURIComponent(place)}';"
+                        />
+                        <div class="text-left flex-1 min-w-0">
+                            <div class="flex items-center justify-between text-xs text-amber-800 font-medium mb-1">
+                                <span>${date}</span>
+                                <span class="text-stone-400 text-[11px]">${place}</span>
                             </div>
+                            <h3 class="font-semibold text-stone-800 text-sm truncate mb-0.5">${story}</h3>
                         </div>
                     </div>
                 `;
+                grid.insertAdjacentHTML('beforeend', cardHtml);
             });
-
-            if (totalPages > 1) {
-                let paginationHtml = `
-                    <button onclick="changeTravelPage(${currentTravelPage - 1})" 
-                            class="px-3 py-1.5 rounded-lg text-xs font-medium border border-brand-100 bg-white hover:bg-brand-50 text-gray-700 transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
-                            ${currentTravelPage === 1 ? 'disabled' : ''}>
-                        <i class="fa-solid fa-chevron-left text-[10px]"></i> 이전
-                    </button>
-                `;
-
-                for (let i = 1; i <= totalPages; i++) {
-                    paginationHtml += `
-                        <button onclick="changeTravelPage(${i})" 
-                                class="w-8 h-8 rounded-lg text-xs font-semibold border transition ${
-                                    i === currentTravelPage 
-                                    ? 'bg-brand-500 text-white border-brand-500 shadow-sm' 
-                                    : 'bg-white text-gray-600 border-brand-100 hover:bg-brand-50'
-                                }">
-                            ${i}
-                        </button>
-                    `;
-                }
-
-                paginationHtml += `
-                    <button onclick="changeTravelPage(${currentTravelPage + 1})" 
-                            class="px-3 py-1.5 rounded-lg text-xs font-medium border border-brand-100 bg-white hover:bg-brand-50 text-gray-700 transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
-                            ${currentTravelPage === totalPages ? 'disabled' : ''}>
-                        다음 <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                    </button>
-                `;
-
-                paginationContainer.innerHTML = paginationHtml;
-            }
         }
 
-        function changeTravelPage(page) {
-            currentTravelPage = page;
-            renderTravelGallery();
-            const section = document.getElementById('passion');
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-            }
+        // 구글 시트 URL에서 Spreadsheet ID 추출
+        function extractSheetId(inputUrl) {
+            if (!inputUrl) return null;
+            const match = inputUrl.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+            return match ? match[1] : null;
         }
 
-        function getGuestbookMessages() {
-            try {
-                return JSON.parse(localStorage.getItem('mj_guestbook') || '[]');
-            } catch (e) {
-                return [];
-            }
+        // 상태 메시지 표시
+        function showStatus(message, isError = false) {
+            const statusEl = document.getElementById('sync-status');
+            statusEl.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+            statusEl.classList.add(isError ? 'text-rose-600' : 'text-emerald-600');
+            statusEl.textContent = message;
         }
 
-        function renderGuestbook() {
-            const list = document.getElementById('guestbook-list');
-            const messages = getGuestbookMessages();
-            if (messages.length === 0) {
-                list.innerHTML = `<p class="text-xs text-gray-400 text-center py-4">첫 번째 방명록 메시지를 남겨보세요!</p>`;
+        // 구글 시트 동기화 실행 (프로필 및 여행 시트 2개 연동)
+        async function syncGoogleSheet() {
+            const urlInput = document.getElementById('sheet-url').value.trim();
+            
+            if (!urlInput) {
+                showStatus('구글 시트 URL을 입력해 주세요.', true);
                 return;
             }
-            list.innerHTML = messages.map(m => `
-                <div class="bg-white p-4 rounded-xl border border-brand-100 shadow-sm">
-                    <div class="flex items-center justify-between text-xs text-gray-500 mb-1">
-                        <span class="font-bold text-gray-800">${m.name} <span class="font-normal text-brand-600">(${m.relation || '방문객'})</span></span>
-                        <span>${m.date}</span>
-                    </div>
-                    <p class="text-sm text-gray-700 mt-1">${m.content}</p>
-                </div>
-            `).join('');
+
+            const sheetId = extractSheetId(urlInput);
+            if (!sheetId) {
+                showStatus('올바른 구글 스프레드시트 URL 형식이 아닙니다.', true);
+                return;
+            }
+
+            showStatus('구글 시트의 "프로필" 및 "여행" 데이터를 불러오는 중...');
+
+            // '프로필' 시트 및 '여행' 시트 CSV URL 생성
+            const profileCsvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent('프로필')}`;
+            const travelCsvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent('여행')}`;
+
+            let profileUpdated = false;
+            let travelUpdated = false;
+
+            // 1. '프로필' 시트 불러오기 및 반영
+            try {
+                const pRes = await fetch(profileCsvUrl);
+                if (pRes.ok) {
+                    const pCsv = await pRes.text();
+                    Papa.parse(pCsv, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: function(results) {
+                            if (results.data && results.data.length > 0) {
+                                renderProfileData(results.data);
+                                profileUpdated = true;
+                            }
+                        }
+                    });
+                }
+            } catch (err) {
+                console.warn('프로필 시트 불러오기 실패:', err);
+            }
+
+            // 2. '여행' 시트 불러오기 및 반영
+            try {
+                const tRes = await fetch(travelCsvUrl);
+                if (tRes.ok) {
+                    const tCsv = await tRes.text();
+                    Papa.parse(tCsv, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: function(results) {
+                            if (results.data && results.data.length > 0) {
+                                renderTravelCards(results.data);
+                                travelUpdated = true;
+                            }
+                        }
+                    });
+                }
+            } catch (err) {
+                console.warn('여행 시트 불러오기 실패:', err);
+            }
+
+            // 연동 결과 안내
+            setTimeout(() => {
+                if (profileUpdated || travelUpdated) {
+                    const successList = [];
+                    if (profileUpdated) successList.push('프로필');
+                    if (travelUpdated) successList.push('여행');
+                    showStatus(`✓ 성공적으로 연동되었습니다! (${successList.join(', ')} 시트)`);
+                } else {
+                    showStatus('데이터를 불러오지 못했습니다. 시트 탭 이름("프로필", "여행")과 공유 설정(링크 공개)을 확인해 주세요.', true);
+                }
+            }, 600);
         }
 
-        function addGuestbookMessage(e) {
-            e.preventDefault();
-            const name = document.getElementById('gb-name').value.trim();
-            const relation = document.getElementById('gb-relation').value.trim();
-            const content = document.getElementById('gb-content').value.trim();
-            
-            if (!name || !content) return;
-
-            const messages = getGuestbookMessages();
-            messages.unshift({
-                name,
-                relation,
-                content,
-                date: new Date().toLocaleDateString('ko-KR')
-            });
-
-            localStorage.setItem('mj_guestbook', JSON.stringify(messages));
-            document.getElementById('gb-content').value = '';
-            renderGuestbook();
-        }
-
+        // 페이지 진입 시 기본 데이터 렌더링
         window.addEventListener('DOMContentLoaded', () => {
-            loadProfileData();
-            loadTravelData();
-            renderGuestbook();
+            renderTravelCards(defaultTravelData);
         });
     </script>
 </body>
